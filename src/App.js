@@ -3,6 +3,8 @@ import './App.css';
 import { SectionSelector } from './section-selector';
 import { Essay5, Essay6 } from './essay-third';
 
+import ToolbarPlugin from './plugins/ToolbarPlugin';
+
 
 function App() {
   const [showDraftArea, setShowDraftArea] = useState(false);

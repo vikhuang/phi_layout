@@ -449,7 +449,7 @@ export default function ToolbarPlugin() {
       setHasFocus(editor.getRootElement() === document.activeElement);
       return mergeRegister(
         editor.registerCommand(FOCUS_COMMAND, () => {setShowToolbar(true)}, COMMAND_PRIORITY_LOW),
-        editor.registerCommand(BLUR_COMMAND, () => {setShowToolbar(false)}, COMMAND_PRIORITY_LOW),
+        // editor.registerCommand(BLUR_COMMAND, () => {setShowToolbar(false)}, COMMAND_PRIORITY_LOW),
         
       );
     }, [editor]);
@@ -568,7 +568,9 @@ export default function ToolbarPlugin() {
   }, [editor, isLink]);
 
   return (
-    <div className="toolbar" ref={toolbarRef} style={{visibility: showToolbar ? 'visible' : 'hidden'}}>
+    <div className="toolbar" ref={toolbarRef} 
+      style={{visibility: showToolbar ? 'visible' : 'hidden'}}
+    >
       <button
         disabled={!canUndo}
         onClick={() => {

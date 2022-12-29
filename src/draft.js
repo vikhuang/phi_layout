@@ -43,6 +43,13 @@ function onChange(editorState) {
   });
 }
 
+function GetEditor(props) {
+  const [editor] =  useLexicalComposerContext();
+  useEffect(() => {
+    props.editorElement(editor);
+  }, [editor])
+}
+
 function SaveContentButton({editable = true}) {
   const [editor] =  useLexicalComposerContext();
   const word = editable.toString();
@@ -134,6 +141,7 @@ export default function Editor(props) {
             ErrorBoundary={LexicalErrorBoundary}
           /> 
           <OnChangePlugin onChange={onChange} />
+          {/* <GetEditor editorElement={editor}/> */}
           {/* <TreeViewPlugin /> */}
           <HistoryPlugin />
           <MyCustomAutoFocusPlugin onFocused={onFocused}/>
