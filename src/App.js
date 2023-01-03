@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import './App.css';
 import { SectionSelector } from './section-selector';
+import { Essay1 } from './essay-first';
 import { Essay5, Essay6 } from './essay-third';
+
 
 import ToolbarPlugin from './plugins/ToolbarPlugin';
 
@@ -9,6 +11,15 @@ import ToolbarPlugin from './plugins/ToolbarPlugin';
 function App() {
   const [showDraftArea, setShowDraftArea] = useState(false);
   const [essayFocused, setEssayFocused] = useState(null);
+
+  const [Essay1Content, setEssay1Content] = useState(null);
+  const [Essay2Content, setEssay2Content] = useState(null);
+  const [Essay3Content, setEssay3Content] = useState(null);
+  const [Essay4Content, setEssay4Content] = useState(null);
+  const [Essay5Content, setEssay5Content] = useState(null);
+
+  const allContent = [Essay1Content, Essay2Content, Essay3Content, Essay4Content, Essay5Content];
+
 
   
   return (
@@ -24,15 +35,13 @@ function App() {
         </div>
       </div>
       <div className='preview'>
-        <SectionSelector onFocused={setEssayFocused} />
+        <SectionSelector onFocused={setEssayFocused} saveHandler={() => {console.log(Essay4Content)}}/>
         <div className='third_wrapper'>
-          <Essay5 onFocused={essayFocused}/>
-          <Essay6 onFocused={essayFocused}/>
+          <Essay5 onFocused={essayFocused} setContent={setEssay4Content} />
+          <Essay6 onFocused={essayFocused} setContent={setEssay5Content} />
         </div>
         <div className='first_wrapper'>
-          <div className='essay1'>
-              qu’elle emprunte à ma pensée dont elle est un mode ; mas que telle idée contienne telle ou telle réalité objective plutôt qu’une autre, qu’elle emprunte à ma pensée dont elle est un mode ; mas que telle idée contienne telle ou telle réalité objective plutôt qu’une autre, cela, assurément, elle doit le tenir de quelque cause dans laquelle il y ait pour le moins autant de réalité formelle qu’elle en contient elle- même d’objective. En effet , si nous posons qu’il se rencontre dans l’idée quelque chose qui n’a pas été dans sa cause, elle le tient donc du néant ; or, pour imparfait que soit ce mode d’être par lequel une chose est à titre d’objet dans l’entendement par l’entremise d’une idée, il est pourtant sûr que ce n’est pas rien du tout, et par conséquent cela ne saurait provenir du néant.
-          </div>
+          <Essay1 onFocused={essayFocused}/>
         </div>  
       </div> 
       

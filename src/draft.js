@@ -1,5 +1,5 @@
 import { $getRoot, $getSelection } from 'lexical';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useLayoutEffect } from 'react';
 
 import { theme } from './theme';
 import ToolbarPlugin from './plugins/ToolbarPlugin';
@@ -81,33 +81,40 @@ function BeEditable(editable) {
 // actually use them.
 function MyCustomAutoFocusPlugin(props) {
   const [editor] = useLexicalComposerContext();
+  const onFocused = props.onFocused;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Focus the editor when the effect fires!
-    if(props.onFocused) { editor.focus(); }
-  }, [props.onFocused, editor]);
+    if(onFocused) { 
+      editor.setEditable(true);
+      editor.focus(); 
+    } else {
+      editor.setEditable(false);
+    }
+  }, [onFocused, editor]);
 
   return null;
 }
 
-// Catch any errors that occur during Lexical updates and log them
-// or throw them as needed. If you don't throw them, Lexical will
-// try to recover gracefully without losing user data.
-function onError(error) {
-  console.error(error);
+function SaveContent({essayNo, setContent = f => f}) {
+  const [editor] = useLexicalComposerContext();
+  const content = JSON.stringify(editor.getEditorState());
+
+  useEffect(() => {
+    setContent(content);
+  }, [content, editor])
 }
-
-
 
 
 export default function Editor(props) {
   
-  const [saveContent, setSaveContent] = useState(null);
+  
   const [editable, setEditable] = useState(true);
   const onFocused = props.onFocused;
+  const setContent = props.setContent;
   const [showToolbar, setShowToolbar] = useState(false);
 
-  const placeholder = props.essayNo;
+  const essayNo = props.essayNo;
 
   useEffect(()=> {
     setShowToolbar(onFocused);
@@ -117,7 +124,6 @@ export default function Editor(props) {
     namespace: 'MyEditor', 
     theme: theme,
     editable: editable,
-    onError,
     nodes: [
       HeadingNode,
       ListNode,
@@ -142,21 +148,22 @@ export default function Editor(props) {
         <div className="editor-inner">
           <RichTextPlugin
             contentEditable={<ContentEditable className='editor-input' />}
-            placeholder={<Placeholder essayNo={placeholder}/>}
+            placeholder={<Placeholder essayNo={essayNo}/>}
             ErrorBoundary={LexicalErrorBoundary}
           /> 
           <OnChangePlugin onChange={onChange} />
           {/* <TreeViewPlugin /> */}
           <HistoryPlugin />
+          {/* <EditModeSwitch onFocused={onFocused}/> */}
           <MyCustomAutoFocusPlugin onFocused={onFocused}/>
+          
           {/* <AutoFocusPlugin /> */}
+          <SaveContent essayNo={essayNo} setContent={setContent}/>
           <ListPlugin />
           <LinkPlugin />
           <AutoLinkPlugin />
           <ListMaxIndentLevelPlugin maxDepth={7} />
           <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
-            {/* <SaveContentButton editable={editable}/>
-            <button onClick={()=>{setEditable(true)}}>parent!</button> */}
         </div>
       </div> 
     </LexicalComposer>
