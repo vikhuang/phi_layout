@@ -105,8 +105,13 @@ export default function Editor(props) {
   const [saveContent, setSaveContent] = useState(null);
   const [editable, setEditable] = useState(true);
   const onFocused = props.onFocused;
+  const [showToolbar, setShowToolbar] = useState(false);
 
   const placeholder = props.essayNo;
+
+  useEffect(()=> {
+    setShowToolbar(onFocused);
+  }, [onFocused])
 
   const editorConfig = {
     namespace: 'MyEditor', 
@@ -132,7 +137,7 @@ export default function Editor(props) {
     <LexicalComposer initialConfig={editorConfig}>
       <div className="editor-container">
         <div className='editor-toolbar'>
-          <ToolbarPlugin />
+          <ToolbarPlugin toolbarState={showToolbar}/>
         </div>
         <div className="editor-inner">
           <RichTextPlugin
@@ -141,7 +146,6 @@ export default function Editor(props) {
             ErrorBoundary={LexicalErrorBoundary}
           /> 
           <OnChangePlugin onChange={onChange} />
-          {/* <GetEditor editorElement={editor}/> */}
           {/* <TreeViewPlugin /> */}
           <HistoryPlugin />
           <MyCustomAutoFocusPlugin onFocused={onFocused}/>
@@ -162,7 +166,6 @@ export default function Editor(props) {
 function Placeholder(props) {
   return (
     <div className="editor-placeholder">
-      
       {props.essayNo}
     </div>
   );

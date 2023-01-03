@@ -8,10 +8,6 @@ export const sampleContent =  'Quelle cause requiert une idée ? Ou dites-moi ce
 
 export const Essay5 = (props) => {
     const onFocusedBoolean = (props.onFocused === 5);
-    // useEffect(() => {
-    //     console.log(onFocusedBoolean);
-    // }, [onFocusedBoolean]);
-
     return(
         <div className='essay4'>
             <div className='second_wrapper_right'> 

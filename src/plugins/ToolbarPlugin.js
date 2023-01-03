@@ -418,11 +418,12 @@ function BlockOptionsDropdownList({
   );
 }
 
-export default function ToolbarPlugin() {
+export default function ToolbarPlugin(props) {
   const [editor] = useLexicalComposerContext();
+  const showToolbar = props.toolbarState;
   const toolbarRef = useRef(null);
   const activeElement = document.activeElement;
-  const [showToolbar, setShowToolbar] = useState(false);
+  
 
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
@@ -440,30 +441,21 @@ export default function ToolbarPlugin() {
   const [isStrikethrough, setIsStrikethrough] = useState(false);
   const [isCode, setIsCode] = useState(false);
 
-  const useEditorFocus = () => {
-    const [hasFocus, setHasFocus] = useState(() => {
-      return (editor.getRootElement() === document.activeElement);
-    });
+  // const useEditorFocus = () => {
+  //   const [hasFocus, setHasFocus] = useState(() => {
+  //     return (editor.getRootElement() === document.activeElement);
+  //   });
     
-    useLayoutEffect(() => {
-      setHasFocus(editor.getRootElement() === document.activeElement);
-      return mergeRegister(
-        editor.registerCommand(FOCUS_COMMAND, () => {setShowToolbar(true)}, COMMAND_PRIORITY_LOW),
-        // editor.registerCommand(BLUR_COMMAND, () => {setShowToolbar(false)}, COMMAND_PRIORITY_LOW),
+  //   useLayoutEffect(() => {
+  //     setHasFocus(editor.getRootElement() === document.activeElement);
+  //     return mergeRegister(
+  //       editor.registerCommand(FOCUS_COMMAND, () => {setShowToolbar(true)}, COMMAND_PRIORITY_LOW),
+  //       // editor.registerCommand(BLUR_COMMAND, () => {setShowToolbar(false)}, COMMAND_PRIORITY_LOW),
         
-      );
-    }, [editor]);
-    
-  }
-
-  if(activeElement.className === 'toolbar') {
-    console.log('TOOLBAR!');
-  }
-  
-  useEditorFocus();
-
-
-  
+  //     );
+  //   }, [editor]);
+  // }
+  // useEditorFocus();
 
   const updateToolbar = useCallback(() => {
     const selection = $getSelection();
