@@ -4,7 +4,6 @@ import { SectionSelector } from './section-selector';
 import { Essay1 } from './essay-first';
 import { Essay5, Essay6 } from './essay-third';
 
-
 import ToolbarPlugin from './plugins/ToolbarPlugin';
 
 
@@ -18,7 +17,8 @@ function App() {
   const [Essay4Content, setEssay4Content] = useState(null);
   const [Essay5Content, setEssay5Content] = useState(null);
 
-  const allContent = [Essay1Content, Essay2Content, Essay3Content, Essay4Content, Essay5Content];
+  const [val, set] = useState(null);
+
 
 
   
@@ -35,9 +35,13 @@ function App() {
         </div>
       </div>
       <div className='preview'>
-        <SectionSelector onFocused={setEssayFocused} saveHandler={() => {console.log(Essay4Content)}}/>
+        <SectionSelector onFocused={setEssayFocused} 
+          saveHandler={() => {
+            set([Essay1Content, Essay2Content, Essay3Content, Essay4Content, Essay5Content]);
+          }}
+        />
         <div className='third_wrapper'>
-          <Essay5 onFocused={essayFocused} setContent={setEssay4Content} />
+          <Essay5 onFocused={essayFocused} setContent={() => setEssay4Content} />
           <Essay6 onFocused={essayFocused} setContent={setEssay5Content} />
         </div>
         <div className='first_wrapper'>
